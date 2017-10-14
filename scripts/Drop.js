@@ -8,36 +8,16 @@ class Drop {
         select(name)
             .dragOver(this.highlight)
             .dragLeave(this.unhighlight)
-            .drop(this.file);
+            .drop(this.file, this.unhighlight);
     }
-
     highlight() {
-        select(name).style("background-color", highlight_color);
+        select(name).style('background-color', highlight_color);
     }
     unhighlight() {
-        print(unhighlight_color);
-        select(name).style("background-color", unhighlight_color);
+        select(name).style('background-color', unhighlight_color);
     }
     file(file) {
-        select(name).hide();
-        canvas.show();
+        if (new File(file).loaded)
+            select(name).hide();
     }
 }
-
-// function Drop() {
-//     this.setup = function(_name) {
-
-//         name = _name;
-//         select(name)
-//             .dragOver(this.highlight)
-//             .dragLeave(this.unhighlight);
-//     }
-
-//     this.highlight = function() {
-//         select(name).style("background-color", highlight_color);
-//     }
-//     this.unhighlight = function() {
-//         print(unhighlight_color);
-//         select(name).style("background-color", unhighlight_color);
-//     }
-// }
