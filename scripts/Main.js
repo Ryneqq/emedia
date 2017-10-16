@@ -1,12 +1,27 @@
-var canvas;
+let canvas;
 
 function setup() {
-    canvas = createCanvas(760, 600);
-    canvas.parent('main');
-    canvas.hide();
     new Drop('#drop');
+    canvas = createCanvas(760, 300)
+        .parent('main')
+        .hide();
+    background(unhighlight_color);
+
 }
 
 function draw() {
+    for (let i = 0; images[i]; i++) {
+        canvas.show();
+        images[i].mousePressed(function() { loadimage(images[i]) });
+    }
     noLoop();
+}
+
+function mousePressed() {
+    redraw();
+}
+
+function loadimage(img) {
+    image(img, 0, 0);
+    loadPixels();
 }

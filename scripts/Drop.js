@@ -1,5 +1,5 @@
-let highlight_color = '#D3D3D3'; // light grey
-let unhighlight_color = '#808080'; // grey
+const highlight_color = '#D3D3D3'; // light grey
+const unhighlight_color = '#808080'; // grey
 let name;
 
 class Drop {
