@@ -1,10 +1,12 @@
 let canvas;
+let buttons = [];
 
 function setup() {
     new Drop('#drop');
     canvas = createCanvas(760, 100)
         .parent('canvas')
         .hide();
+    CreateButtons();
     background(unhighlight_color);
     textStyle(BOLD);
     textAlign(CENTER);
