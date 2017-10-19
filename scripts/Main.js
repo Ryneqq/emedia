@@ -6,8 +6,9 @@ function setup() {
         .parent('canvas')
         .hide();
     background(unhighlight_color);
-    textSize(20);
+    textStyle(BOLD);
     textAlign(CENTER);
+    textFont('Times New Roman', 18);
     text('Choose your image by clicking on it', 760 / 2, 100 / 2);
     fill(0);
 }
