@@ -2,26 +2,12 @@ let canvas;
 
 function setup() {
     new Drop('#drop');
-    canvas = createCanvas(760, 300)
-        .parent('main')
+    canvas = createCanvas(760, 100)
+        .parent('canvas')
         .hide();
     background(unhighlight_color);
-
-}
-
-function draw() {
-    for (let i = 0; images[i]; i++) {
-        canvas.show();
-        images[i].mousePressed(function() { loadimage(images[i]) });
-    }
-    noLoop();
-}
-
-function mousePressed() {
-    redraw();
-}
-
-function loadimage(img) {
-    image(img, 0, 0);
-    loadPixels();
+    textSize(20);
+    textAlign(CENTER);
+    text('Choose your image by clicking on it', 760 / 2, 100 / 2);
+    fill(0);
 }
