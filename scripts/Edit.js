@@ -2,13 +2,16 @@ let original;
 let fftRe;
 let fftIm;
 let encrypted;
+let canvasdata;
 
 class Edit {
     constructor() {
         original = [];
+        encrypted = [];
         fftRe = [];
         fftIm = [];
-        encrypted = [];
+
+        canvasdata = [CanvasRenderingContext2D].getImageData;
 
         arrayCopy(pixels, original);
         arrayCopy(pixels, fftRe);
@@ -26,9 +29,23 @@ class Edit {
             buttons[i].show();
         }
     }
-
-    // na razie prosta zmiana kolorow
     fft() {
+        // const rate = 44100;
+        // let fftImg = [];
+        // fftRe = [];
+        // fftIm = [];
+
+        // let l = pow(2, floor(Math.log2(fftRe.length)));
+        // let fft = new FFT(l, rate);
+
+        // for (let i = 0; i < l; i++) {
+        //     fftImg.push(original[i]);
+        // }
+
+        // fftImg = fft.forward(fftImg);
+        // fftRe = fftImg;
+        // fftIm = fft.imag;
+
         for (let i = 0; i < fftRe.length; i += 4) {
             let temp = fftRe[i];
             fftRe[i] = fftRe[i + 1];
