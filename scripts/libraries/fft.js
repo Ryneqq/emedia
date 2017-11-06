@@ -1,37 +1,16 @@
-import baseComplexArray from './complex_array';
-
-// Math constants and functions we need.
-// const PI = Math.PI;
 const SQRT1_2 = Math.SQRT1_2;
 
-export function FFT(input) {
+function FFT(input) {
     return ensureComplexArray(input).FFT();
 };
 
-export function InvFFT(input) {
+function InvFFT(input) {
     return ensureComplexArray(input).InvFFT();
 };
 
-export function frequencyMap(input, filterer) {
+function frequencyMap(input, filterer) {
     return ensureComplexArray(input).frequencyMap(filterer);
 };
-
-export class ComplexArray extends baseComplexArray {
-    FFT() {
-        return fft(this, false);
-    }
-
-    InvFFT() {
-        return fft(this, true);
-    }
-
-    // Applies a frequency-space filter to input, and returns the real-space
-    // filtered input.
-    // filterer accepts freq, i, n and modifies freq.real and freq.imag.
-    frequencyMap(filterer) {
-        return this.FFT().map(filterer).InvFFT();
-    }
-}
 
 function ensureComplexArray(input) {
     return input instanceof ComplexArray && input || new ComplexArray(input);

@@ -22,17 +22,22 @@ class Edit {
     }
 
     calculate_fft() {
-        let x = new complex_array();
-        for (let i = 0; i < pixels.length; i++) {
-            x.real[i] = pixels[i];
-        }
-        let X = FFT2D(x, width, height);
+        let k = pixels.length / 4 / (width * height);
+        let w = width * sqrt(k);
+        let h = height * sqrt(k);
+        let X = FFTImageDataRGBA(pixels, w, h);
+        print(X.real.length);
 
         fftRe = [];
         fftIm = [];
-        for (let i = 0; i < pixels.length; i++) {
-            fftRe[i] = X.real[i];
-            fftIm[i] = X.imag[i];
+        for (let i = 0; i < X.real.length; i++) {
+            if (i % 3 != 0) {
+                fftRe[i] = X.real[i] % 255;
+                fftIm[i] = X.imag[i] % 255;
+            } else {
+                fftRe[i] = X.real[i] = 255;
+                fftIm[i] = X.imag[i] = 255;
+            }
         }
 
         // // step musi być wielokrotnością 4!!!
