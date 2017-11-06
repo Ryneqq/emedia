@@ -2,56 +2,66 @@ let original;
 let fftRe;
 let fftIm;
 let encrypted;
-let canvasdata;
 
 class Edit {
     constructor() {
         original = [];
         encrypted = [];
-        fftRe = [];
-        fftIm = [];
-
-        canvasdata = [CanvasRenderingContext2D].getImageData;
 
         arrayCopy(pixels, original);
-        arrayCopy(pixels, fftRe);
-        arrayCopy(pixels, fftIm);
         arrayCopy(pixels, encrypted);
         // arrayCopy returns an array of objects, the [0] element is array of pixels
         original = original[0];
-        fftRe = fftRe[0];
-        fftIm = fftIm[0];
         encrypted = encrypted[0];
 
-        this.fft();
+        this.calculate_fft();
 
         for (let i = 0; i < buttons.length; i++) {
             buttons[i].show();
         }
     }
-    fft() {
-        // const rate = 44100;
-        // let fftImg = [];
-        // fftRe = [];
-        // fftIm = [];
 
-        // let l = pow(2, floor(Math.log2(fftRe.length)));
-        // let fft = new FFT(l, rate);
+    calculate_fft() {
+        let x = new complex_array();
+        for (let i = 0; i < pixels.length; i++) {
+            x.real[i] = pixels[i];
+        }
+        let X = FFT2D(x, width, height);
 
-        // for (let i = 0; i < l; i++) {
-        //     fftImg.push(original[i]);
+        fftRe = [];
+        fftIm = [];
+        for (let i = 0; i < pixels.length; i++) {
+            fftRe[i] = X.real[i];
+            fftIm[i] = X.imag[i];
+        }
+
+        // // step musi być wielokrotnością 4!!!
+        // // step mówi o ilości pominietych pixeli
+        // // ilosc pominietych pixeli = (step / 4 - 1) * N
+        // let step = 16;
+        // let vector = [];
+        // let complex = {};
+        // for (let i = 0; i < pixels.length; i += step) {
+        //     let pv = (pixels[i] + pixels[i + 1] + pixels[i + 2]) / 4;
+        //     complex = [pv, pv];
+        //     vector.push(complex);
         // }
 
-        // fftImg = fft.forward(fftImg);
-        // fftRe = fftImg;
-        // fftIm = fft.imag;
+        // let power = floor(Math.log2(vector.length));
+        // let N = pow(2, power);
+        // print(vector.length + ' ' + N);
+        // vector.splice(N, vector.length - N);
+        // var X = fft2(vector, 0, N);
 
-        for (let i = 0; i < fftRe.length; i += 4) {
-            let temp = fftRe[i];
-            fftRe[i] = fftRe[i + 1];
-            fftRe[i + 1] = fftRe[i + 2];
-            fftRe[i + 2] = temp;
-        }
+        // for (let n = 0, k = 0; k < N; n += 4, k++) {
+        //     fftRe[n] = X[k][0] % 255;
+        //     fftRe[n + 1] = fftRe[n]; // odcienie szarosci
+        //     fftRe[n + 2] = fftRe[n];
+
+        //     fftIm[n] = X[k][1] % 255;
+        //     fftIm[n + 1] = fftIm[n]; // odcienie szarosci
+        //     fftIm[n + 2] = fftIm[n];
+        // }
     }
     encrypt() {
 
