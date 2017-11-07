@@ -1,5 +1,10 @@
 let canvas;
 let buttons = [];
+// window.onload = getExif;
+
+// function preload() {
+//     window.onload = getExif;
+// }
 
 function setup() {
     new Drop('#drop');
@@ -13,4 +18,6 @@ function setup() {
     textFont('Times New Roman', 18);
     text('Choose your image by clicking on it', 760 / 2, 100 / 2);
     fill(0);
+    print(EXIF);
+
 }

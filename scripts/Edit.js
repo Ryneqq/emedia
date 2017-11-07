@@ -15,6 +15,8 @@ class Edit {
         encrypted = encrypted[0];
         select('#buttons').show();
         isfft = false;
+        GetMetadata();
+
     }
 }
 
@@ -84,4 +86,12 @@ function ChangePixels(pixelsArray) {
         pixels[i] = pixelsArray[i];
     }
     updatePixels();
+}
+
+function GetMetadata(id) {
+    let meta;
+    EXIF.getData(document.getElementById("img1"), function() {
+        meta = EXIF.getAllTags(this);
+    });
+    print(meta);
 }

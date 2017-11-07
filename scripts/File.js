@@ -1,6 +1,7 @@
 let images = [];
 let loaded = [];
 
+iterator = 1;
 class File {
     constructor(file) {
         if (file.type === 'image') {
@@ -21,7 +22,9 @@ class File {
         // show an image as html object
         var img = createImg(this.loaded.data)
             .parent('main')
-            .style('width', '760px');
+            .style('width', '760px')
+            .id('img' + iterator);
+        iterator++;
         // add 'click' event to the image
         img.mousePressed(function() { loadimage(img) });
         images.push(img);
