@@ -22,6 +22,13 @@ body {
 
 #canvas {
     margin: 20px;
+    margin-bottom: 10px;
+}
+
+#buttons {
+    text-align: center;
+    margin-left: 35%;
+    padding-bottom: 20px;
 }
 
 #main {

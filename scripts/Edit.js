@@ -13,64 +13,45 @@ class Edit {
         // arrayCopy returns an array of objects, the [0] element is array of pixels
         original = original[0];
         encrypted = encrypted[0];
-
-        this.calculate_fft();
-
-        for (let i = 0; i < buttons.length; i++) {
-            buttons[i].show();
-        }
+        select('#buttons').show();
+        isfft = false;
     }
+}
 
-    calculate_fft() {
-        let k = pixels.length / 4 / (width * height);
-        let w = width * sqrt(k);
-        let h = height * sqrt(k);
-        let X = FFTImageDataRGBA(pixels, w, h);
-        print(X.real.length);
+let isfft = false;
 
-        fftRe = [];
-        fftIm = [];
-        for (let i = 0; i < X.real.length; i++) {
-            if (i % 3 != 0) {
-                fftRe[i] = X.real[i] % 255;
-                fftIm[i] = X.imag[i] % 255;
-            } else {
-                fftRe[i] = X.real[i] = 255;
-                fftIm[i] = X.imag[i] = 255;
-            }
-        }
+function CalculateFFT() {
 
-        // // step musi być wielokrotnością 4!!!
-        // // step mówi o ilości pominietych pixeli
-        // // ilosc pominietych pixeli = (step / 4 - 1) * N
-        // let step = 16;
-        // let vector = [];
-        // let complex = {};
-        // for (let i = 0; i < pixels.length; i += step) {
-        //     let pv = (pixels[i] + pixels[i + 1] + pixels[i + 2]) / 4;
-        //     complex = [pv, pv];
-        //     vector.push(complex);
-        // }
+    if (isfft)
+        return;
 
-        // let power = floor(Math.log2(vector.length));
-        // let N = pow(2, power);
-        // print(vector.length + ' ' + N);
-        // vector.splice(N, vector.length - N);
-        // var X = fft2(vector, 0, N);
+    alert('I am calculating FFT. That might take a while. Wait till another alert.');
+    let k = pixels.length / 4 / (width * height);
+    let w = width * sqrt(k);
+    let h = height * sqrt(k);
 
-        // for (let n = 0, k = 0; k < N; n += 4, k++) {
-        //     fftRe[n] = X[k][0] % 255;
-        //     fftRe[n + 1] = fftRe[n]; // odcienie szarosci
-        //     fftRe[n + 2] = fftRe[n];
+    let X = FFTImageDataRGBA(pixels, w, h);
+    print(X.real.length);
 
-        //     fftIm[n] = X[k][1] % 255;
-        //     fftIm[n + 1] = fftIm[n]; // odcienie szarosci
-        //     fftIm[n + 2] = fftIm[n];
-        // }
+    fftRe = [];
+    fftIm = [];
+    for (let i = 0; i < X.real.length; i += 4) {
+        let avre = (X.real[i] + X.real[i + 1] + X.real[i + 2]) / 3 % 255;
+        let avim = (X.imag[i] + X.imag[i + 1] + X.imag[i + 2]) / 3 % 255;
+
+        fftRe[i] = avre;
+        fftRe[i + 1] = avre;
+        fftRe[i + 2] = avre;
+
+        fftIm[i] = avim;
+        fftIm[i + 1] = avim;
+        fftIm[i + 2] = avim;
+
+        fftRe[i + 3] = 255;
+        fftIm[i + 3] = 255;
     }
-    encrypt() {
-
-    }
+    isfft = true;
+    alert('The FFT has been calculated, go check the results!');
 }
 
 function CreateButtons() {
@@ -78,21 +59,24 @@ function CreateButtons() {
         .mousePressed(function() { ChangePixels(original) });
     buttons.push(orignial_button);
 
-    fftRe_button = createButton('fft_re')
-        .mousePressed(function() { ChangePixels(fftRe) });
+    fftRe_button = createButton('real')
+        .mousePressed(function() { CalculateFFT(), ChangePixels(fftRe) });
     buttons.push(fftRe_button);
 
-    fftIm_button = createButton('fft_im')
-        .mousePressed(function() { ChangePixels(fftIm) });
+    fftIm_button = createButton('imag')
+        .mousePressed(function() { CalculateFFT(), ChangePixels(fftIm) });
     buttons.push(fftIm_button);
 
     encrypted_button = createButton('encrypted')
         .mousePressed(function() { ChangePixels(encrypted) });
     buttons.push(encrypted_button);
 
+
     for (let i = 0; i < buttons.length; i++) {
-        buttons[i].parent('canvas').hide();
+        buttons[i].parent('buttons').style('float', 'left');
     }
+    select('#buttons').style('clear', 'both').hide();
+
 }
 
 function ChangePixels(pixelsArray) {
